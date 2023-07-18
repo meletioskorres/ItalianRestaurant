@@ -22,4 +22,8 @@ public class Pizza {
         this.name = name;
         this.ingredients = ingredients;
     }
+
+    public CartItem toCartItem(int quantity) {
+        return new CartItem(this, quantity);
+    }
 }

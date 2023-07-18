@@ -3,9 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Italian Restaurant Menu</title>
+    <style>
+        /* CSS to style the ingredients and menu items */
+        .pizza-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .ingredients {
+            font-size: 80%;
+            color: #666;
+        }
+
+        /* Position the cart button */
+        .cart-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+        }
+    </style>
     
 </head>
 <body>
-
+<h1>Menu</h1>
+<ul>
+    <!-- Use Thymeleaf each loop to iterate over the list of pizzas -->
+    <li th:each="pizza : ${pizzas}">
+        <div class="pizza-item">
+            <div>
+                <h3 th:text="${pizza.name}"></h3>
+                <div class="ingredients">
+                    <span th:each="ingredient : ${pizza.ingredients}" th:text="${ingredient.name}" th:if="${!ingredientStat.last}">,</span>
+                    <span th:text="${pizza.ingredients[pizza.ingredients.size() - 1].name}"></span>
+                </div>
+            </div>
+            <form th:action="@{/addToCart}" method="post">
+                <input type="hidden" name="pizzaId" th:value="${pizza.id}" />
+                <input type="number" name="quantity" value="1" min="1" />
+                <button type="submit">Add to Cart</button>
+            </form>
+        </div>
+    </li>
+</ul>
+<a href="/cart" class="cart-button">
+    <button>Cart</button>
+</a>
 </body>
 </html>
